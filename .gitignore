@@ -14,7 +14,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-./.idea
+mini-ecommerce/.idea
 *.iws
 *.iml
 *.ipr
