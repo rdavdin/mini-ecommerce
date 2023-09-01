@@ -35,6 +35,10 @@ public class SecurityConfig {
             .csrf(c->c.disable())
             .authorizeHttpRequests(
                     auth -> auth
+                            .requestMatchers(AntPathRequestMatcher.antMatcher("/swagger-ui.html")).permitAll()
+                            .requestMatchers(AntPathRequestMatcher.antMatcher("/swagger-ui/**")).permitAll()
+                            .requestMatchers(AntPathRequestMatcher.antMatcher("/v3/api-docs/**")).permitAll()
+                            .requestMatchers(AntPathRequestMatcher.antMatcher("/api/user/create")).permitAll()
                             .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, SecurityConstants.SIGN_UP_URL)).permitAll()
                             .anyRequest().authenticated())
             .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
