@@ -56,14 +56,13 @@ public class UserController {
 		log.info("Username set with {}", (String) createUserRequest.getUsername());
 		log2.info("Username set with {}", (String) createUserRequest.getUsername());
 
-		Cart cart = new Cart();
-		cartRepository.save(cart);
-		user.setCart(cart);
-
-		if(createUserRequest.getPassword().length() < 7 ||
+		if(createUserRequest.getPassword().length() < 6 ||
 				!createUserRequest.getConfirmPassword().equals(createUserRequest.getPassword())){
 			return ResponseEntity.badRequest().build();
 		}
+		Cart cart = new Cart();
+		cartRepository.save(cart);
+		user.setCart(cart);
 
 		user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
 		userRepository.save(user);
