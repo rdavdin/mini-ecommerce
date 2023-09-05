@@ -35,11 +35,22 @@ public class SecurityConfig {
             .csrf(c->c.disable())
             .authorizeHttpRequests(
                     auth -> auth
+                            .requestMatchers(AntPathRequestMatcher.antMatcher("/js/**")).permitAll()
+                            .requestMatchers(AntPathRequestMatcher.antMatcher("/css/**")).permitAll()
+                            .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
+                            .requestMatchers(AntPathRequestMatcher.antMatcher("/swagger-ui.html")).permitAll()
+                            .requestMatchers(AntPathRequestMatcher.antMatcher("/swagger-ui/**")).permitAll()
+                            .requestMatchers(AntPathRequestMatcher.antMatcher("/v3/api-docs/**")).permitAll()
+                            .requestMatchers(AntPathRequestMatcher.antMatcher("/api/user/create")).permitAll()
                             .requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, SecurityConstants.SIGN_UP_URL)).permitAll()
                             .anyRequest().authenticated())
             .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilter(new JWTAuthenticationFilter(authConfig.getAuthenticationManager()))
             .addFilterBefore(new JWTAuthenticationVerficationFilter(authConfig.getAuthenticationManager()), UsernamePasswordAuthenticationFilter.class);
+//        http.httpBasic(Customizer.withDefaults());
+//        http.formLogin(f -> f.defaultSuccessUrl("//swagger-ui/index.html", true));
+        //show h2 content
+        http.headers(headers -> headers.frameOptions(f -> f.disable()));
         return http.build();
     }
 
